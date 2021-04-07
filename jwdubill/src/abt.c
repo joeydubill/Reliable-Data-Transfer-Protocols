@@ -174,7 +174,7 @@ void B_input(packet)
  pack.checksum = calc_checksum(&packet);
  tolayer3(1, pack);
  for (int i=0; i<20; i++){
-    printf(packet.payload[i];
+    printf(&packet.payload[i]);
  }
  //printf(packet.payload);
  tolayer5(1, packet.payload);
