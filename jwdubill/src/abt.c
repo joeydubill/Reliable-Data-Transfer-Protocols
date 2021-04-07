@@ -56,6 +56,7 @@ void A_output(message)
  wait_5 = 0;
  starttimer(0, sender_inc);
  tolayer3(0, packet);
+ printf("send: %s", packet.payload);
 
 }
 
@@ -133,6 +134,7 @@ void B_input(packet)
  pack.checksum = calc_checksum(&packet);
  memcpy(pack.payload, packet.payload, 20);
  tolayer5(1, packet.payload);
+ printf("rec: %s", packet.payload);
  if (rec_seq == 0){
     rec_seq = 1;
  }else if (rec_seq == 1){
