@@ -160,8 +160,8 @@ void B_input(packet)
  }else{
     printf("impossible");
  }
- 
- tolayer3(1, packet);
+ //could be packet
+ tolayer3(1, pack);
 
 }
 
