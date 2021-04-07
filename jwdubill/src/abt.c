@@ -153,14 +153,14 @@ void B_input(packet)
  pack.checksum = calc_checksum(&packet);
  tolayer5(1, packet.payload);
  printf("rec: %s", packet.payload);
-/* if (rec_seq == 0){
+ if (rec_seq == 0){
     rec_seq = 1;
  }else if (rec_seq == 1){
     rec_seq = 0;
  }else{
     printf("impossible");
  }
- */
+ 
  tolayer3(1, pack);
 
 }
