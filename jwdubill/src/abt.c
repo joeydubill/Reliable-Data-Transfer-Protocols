@@ -52,14 +52,14 @@ void A_output(message)
  if (wait_5 != 1){
      printf("A_Output: waiting on ACK, buffering message: %s", message.data);
      struct msg buff;
-     memmove(buff.data, message.data, 20);
+     memcpy(buff.data, message.data, 20);
      buffer[bufferwriteindex] = buff;
      bufferwriteindex++;
      return;
  }
  printf("A_Output: waiting on Layer 5, sending message: %s", message.data);
  struct pkt packet;
- memmove(packet.payload, message.data, 20);
+ memcpy(packet.payload, message.data, 20);
  packet.seqnum = sender_seq;
  packet.checksum = calc_checksum(&packet);
  timeout_pkt = packet;
@@ -170,7 +170,7 @@ void B_input(packet)
  //send to 5 
  printf("B_input: sending ack and to layer 5: %s", packet.payload);
  pack.acknum = rec_seq;
- memmove(pack.payload, packet.payload, 20);
+ memcpy(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
  tolayer3(1, pack);
  tolayer5(1, packet.payload);
