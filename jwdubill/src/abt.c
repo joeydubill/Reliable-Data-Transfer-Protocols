@@ -90,6 +90,7 @@ void A_input(packet)
  wait_5 = 1;
  if (call_buffered_packet){
      A_output(buffered_message);
+     call_buffered_packet = 0;
  }
 
 }
