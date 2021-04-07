@@ -117,6 +117,7 @@ void B_input(packet)
  if (packet.checksum != calc_checksum(&packet)){
      pack.acknum = 1 - rec_seq;
      pack.checksum = calc_checksum(&packet);
+     memcpy(pack.payload, packet.payload, 20);
      pack.payload = packet.payload;
      tolayer3(1, pack);
      return;    
@@ -124,14 +125,14 @@ void B_input(packet)
  if (packet.seqnum != rec_seq) {
      pack.acknum = 1 - rec_seq;
      pack.checksum = calc_checksum(&packet);
-     pack.payload = packet.payload;
+     memcpy(pack.payload, packet.payload, 20);
      tolayer3(1, pack);
      return;
  }
  //send to 5 
  pack.acknum = 1 - rec_seq;
  pack.checksum = calc_checksum(&packet);
- pack.payload = packet.payload;
+ memcpy(pack.payload, packet.payload, 20);
  tolayer5(1, packet.payload);
  if (rec_seq == 0){
     rec_seq = 1;
