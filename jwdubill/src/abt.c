@@ -129,10 +129,10 @@ void B_input(packet)
      return;
  }
  //send to 5 
- pack.acknum = rec_seq;
+ pack.acknum = 1 - rec_seq;
  pack.checksum = calc_checksum(&packet);
- tolayer5(1, packet.payload);
  pack.payload = packet.payload;
+ tolayer5(1, packet.payload);
  if (rec_seq == 0){
     rec_seq = 1;
  }else if (sender_seq == 1){
