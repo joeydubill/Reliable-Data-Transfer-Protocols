@@ -47,8 +47,8 @@ int calc_checksum(struct pkt *packet){
 void A_output(message)
   struct msg message;
 {
- if (wait_5 != 1){
-     buffered_message = message;
+ if (wait_5 != 1 && !call_buffered_packet){
+     memcpy(buffered_message.data, message.data, 20);
      call_buffered_packet = 1;
      return;
  }
