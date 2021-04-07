@@ -30,6 +30,7 @@ int rec_seq;
 
 // packet for timeouts
 struct pkt timeout_pkt;
+struct msg buffered_message;
 
 int calc_checksum(struct pkt *packet){
   int sum = 0;
@@ -46,12 +47,14 @@ void A_output(message)
   struct msg message;
 {
  if (wait_5 != 1){
+     buffered_message = message;
+     call_buffered_packet = true;
      return;
  }
  struct pkt packet;
  memcpy(packet.payload, message.data, 20);
- packet.checksum = calc_checksum(&packet);
  packet.seqnum = sender_seq;
+ packet.checksum = calc_checksum(&packet);
  timeout_pkt = packet;
  wait_5 = 0;
  starttimer(0, sender_inc);
@@ -84,6 +87,10 @@ void A_input(packet)
     printf("impossible");
  }
  wait_5 = 1;
+ if (call_buffered_packet){
+     A_output(buffered_message);
+ }
+
 }
 
 /* called when A's timer goes off */
@@ -106,6 +113,7 @@ void A_init()
  sender_seq = 0;
  //change??
  sender_inc = 20.0f;
+ call_buffered_packet = false;
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
