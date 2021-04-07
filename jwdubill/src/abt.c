@@ -129,7 +129,7 @@ void B_input(packet)
      return;
  }
  //send to 5 
- pack.acknum = rec_seq;
+ pack.acknum = 1 - rec_seq;
  pack.checksum = calc_checksum(&packet);
  //memcpy(pack.payload, packet.payload, 20);
  tolayer5(1, packet.payload);
