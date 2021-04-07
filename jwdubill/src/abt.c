@@ -173,7 +173,10 @@ void B_input(packet)
  memcpy(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
  tolayer3(1, pack);
- printf(packet.payload);
+ for (int i=0; i<20; i++){
+    printf(packet.payload[i];
+ }
+ //printf(packet.payload);
  tolayer5(1, packet.payload);
  if (rec_seq == 0){
     rec_seq = 1;
