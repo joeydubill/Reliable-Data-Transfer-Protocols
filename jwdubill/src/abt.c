@@ -31,8 +31,8 @@ int rec_seq;
 // packet for timeouts
 struct pkt timeout_pkt;
 struct msg buffer[1000];
-int bufferwriteindex = 0;
-int bufferreadindex = 0;
+int bufferwriteindex;
+int bufferreadindex;
 
 
 int calc_checksum(struct pkt *packet){
@@ -134,7 +134,9 @@ void A_init()
  wait_5 = 1;
  sender_seq = 0;
  //change??
- sender_inc = 15.0f;
+ sender_inc = 10.0f;
+ bufferwriteindex = 0;
+ bufferreadindex = 0;
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
