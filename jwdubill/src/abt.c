@@ -52,14 +52,14 @@ void A_output(message)
  if (wait_5 != 1){
      printf("A_Output: waiting on ACK, buffering message: %s", message.data);
      struct msg buff;
-     memcpy(buff.data, message.data, 20);
+     memmove(buff.data, message.data, 20);
      buffer[bufferwriteindex] = buff;
      bufferwriteindex++;
      return;
  }
  printf("A_Output: waiting on Layer 5, sending message: %s", message.data);
  struct pkt packet;
- memcpy(packet.payload, message.data, 20);
+ memmove(packet.payload, message.data, 20);
  packet.seqnum = sender_seq;
  packet.checksum = calc_checksum(&packet);
  timeout_pkt = packet;
@@ -148,7 +148,7 @@ void B_input(packet)
  if (packet.checksum != calc_checksum(&packet)){
      printf("B_input: checksum error");
      pack.acknum = 1 - rec_seq;
-     memcpy(pack.payload, packet.payload, 20);
+     memmove(pack.payload, packet.payload, 20);
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;    
@@ -156,7 +156,7 @@ void B_input(packet)
  if (packet.seqnum != rec_seq) {
      printf("B_input: seqnum not rec_seq");
      pack.acknum = 1 -rec_seq;
-     memcpy(pack.payload, packet.payload, 20);
+     memmove(pack.payload, packet.payload, 20);
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;
@@ -164,7 +164,7 @@ void B_input(packet)
  //send to 5 
  printf("B_input: sending ack and to layer 5: %s", packet.payload);
  pack.acknum = rec_seq;
- memcpy(pack.payload, packet.payload, 20);
+ memmove(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
  tolayer3(1, pack);
  tolayer5(1, packet.payload);
