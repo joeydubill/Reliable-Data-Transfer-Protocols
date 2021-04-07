@@ -58,8 +58,8 @@ void A_output(message)
  }
  struct pkt packet;
  memcpy(packet.payload, message.data, 20);
- packet.checksum = calc_checksum(&packet);
  packet.seqnum = sender_seq;
+ packet.checksum = calc_checksum(&packet);
  timeout_pkt = packet;
  wait_5 = 0;
  starttimer(0, sender_inc);
@@ -135,8 +135,8 @@ void B_input(packet)
  //check checksum and seq
  if (packet.checksum != calc_checksum(&packet)){
      pack.acknum = 1 - rec_seq;
-     pack.checksum = calc_checksum(&packet);
      memcpy(pack.payload, packet.payload, 20);
+     pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;    
  }
@@ -149,8 +149,8 @@ void B_input(packet)
  }
  //send to 5 
  pack.acknum = rec_seq;
- pack.checksum = calc_checksum(&packet);
  memcpy(pack.payload, packet.payload, 20);
+ pack.checksum = calc_checksum(&packet);
  tolayer5(1, packet.payload);
  printf("rec: %s", packet.payload);
  if (rec_seq == 0){
