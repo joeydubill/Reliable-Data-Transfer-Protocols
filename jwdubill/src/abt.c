@@ -52,7 +52,7 @@ void A_output(message)
  if (wait_5 != 1){
      struct msg buff;
      memcpy(buff.data, message.data, 20);
-     buffer[bufferindex] = buff;
+     buffer[bufferwriteindex] = buff;
      bufferwriteindex++;
      return;
  }
@@ -92,7 +92,7 @@ void A_input(packet)
     printf("impossible");
  }
  wait_5 = 1;
- if (buffer[bufferreadindex] != 0){
+ if (buffer[bufferreadindex] != NULL){
     struct msg call = buffer[bufferreadindex];
     A_output(call);
     if (bufferreadindex < bufferwriteindex){
