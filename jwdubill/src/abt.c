@@ -104,7 +104,7 @@ void A_init()
  wait_5 = 1;
  sender_seq = 0;
  //change??
- sender_inc = 1000.0f;
+ sender_inc = 20.0f;
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
@@ -130,7 +130,7 @@ void B_input(packet)
      return;
  }
  //send to 5 
- pack.acknum = 1 - rec_seq;
+ pack.acknum = rec_seq;
  pack.checksum = calc_checksum(&packet);
  memcpy(pack.payload, packet.payload, 20);
  tolayer5(1, packet.payload);
