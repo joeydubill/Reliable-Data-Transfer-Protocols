@@ -117,7 +117,7 @@ void A_timerinterrupt()
      printf("A Timer interrupt, not waiting for ack, ignore");
     return;
  }
- printf("A Timer interrupt, resending timeout_packet: %s", timeout_pkt.data);
+ printf("A Timer interrupt, resending timeout_packet: %s", timeout_pkt.payload);
  tolayer3(0, timeout_pkt);
  starttimer(0, sender_inc);
 
