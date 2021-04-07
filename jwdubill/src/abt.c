@@ -143,7 +143,7 @@ void B_input(packet)
  //check checksum and seq
  if (packet.checksum != calc_checksum(&packet)){
      printf("B_input: checksum error");
-     pack.acknum = 1 - rec_seq;
+     pack.acknum = rec_seq;
      memcpy(pack.payload, packet.payload, 20);
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
@@ -151,7 +151,7 @@ void B_input(packet)
  }
  if (packet.seqnum != rec_seq) {
      printf("B_input: seqnum not rec_seq");
-     pack.acknum = 1 - rec_seq;
+     pack.acknum = rec_seq;
      pack.checksum = calc_checksum(&packet);
      memcpy(pack.payload, packet.payload, 20);
      tolayer3(1, pack);
