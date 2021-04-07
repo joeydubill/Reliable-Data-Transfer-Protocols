@@ -118,7 +118,6 @@ void B_input(packet)
      pack.acknum = 1 - rec_seq;
      pack.checksum = calc_checksum(&packet);
      memcpy(pack.payload, packet.payload, 20);
-     pack.payload = packet.payload;
      tolayer3(1, pack);
      return;    
  }
