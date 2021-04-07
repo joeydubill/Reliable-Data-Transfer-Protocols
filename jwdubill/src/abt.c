@@ -134,21 +134,21 @@ void B_input(packet)
   struct pkt pack;
  //check checksum and seq
  if (packet.checksum != calc_checksum(&packet)){
-     pack.acknum = rec_seq;
+     pack.acknum = 1 - rec_seq;
      memcpy(pack.payload, packet.payload, 20);
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;    
  }
  if (packet.seqnum != rec_seq) {
-     pack.acknum = rec_seq;
+     pack.acknum = 1 - rec_seq;
      pack.checksum = calc_checksum(&packet);
-    memcpy(pack.payload, packet.payload, 20);
+     memcpy(pack.payload, packet.payload, 20);
      tolayer3(1, pack);
      return;
  }
  //send to 5 
- pack.acknum = 1- rec_seq;
+ pack.acknum = 1 - rec_seq;
  memcpy(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
  tolayer5(1, packet.payload);
