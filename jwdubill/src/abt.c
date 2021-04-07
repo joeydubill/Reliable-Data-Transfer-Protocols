@@ -50,8 +50,8 @@ void A_output(message)
  }
  struct pkt packet;
  memcpy(packet.payload, message.data, 20);
- packet.seqnum = sender_seq;
  packet.checksum = calc_checksum(&packet);
+ packet.seqnum = sender_seq;
  timeout_pkt = packet;
  wait_5 = 0;
  starttimer(0, sender_inc);
