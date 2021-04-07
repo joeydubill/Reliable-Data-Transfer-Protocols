@@ -134,7 +134,7 @@ void A_init()
  wait_5 = 1;
  sender_seq = 0;
  //change??
- sender_inc = 10.0f;
+ sender_inc = 5.0f;
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
