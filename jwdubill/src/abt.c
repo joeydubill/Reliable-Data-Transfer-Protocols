@@ -96,6 +96,9 @@ void A_input(packet)
    struct msg call = buffer[bufferreadindex];
    A_output(call);
    bufferreadindex++;
+ }else if (bufferreadindex == bufferwriteindex){
+   bufferreadindex = 0;
+   bufferwriteindex = 0;
  }
  
 
