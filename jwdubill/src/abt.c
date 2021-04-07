@@ -81,6 +81,8 @@ void A_input(packet)
  }
  if (packet.checksum != calc_checksum(&packet)){
      printf("A_Input: checksum error");
+     
+     
      return;
  }
  if (packet.acknum != sender_seq){
@@ -118,7 +120,7 @@ void A_timerinterrupt()
      printf("A Timer interrupt, not waiting for ack, ignore");
     return;
  }
- //timeout_pkt.acknum = 1 - timeout_pkt.acknum
+ timeout_pkt.acknum = 1 - timeout_pkt.acknum
  printf("A Timer interrupt, resending timeout_packet: %s", timeout_pkt.payload);
  tolayer3(0, timeout_pkt);
  starttimer(0, sender_inc);
