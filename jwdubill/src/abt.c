@@ -161,7 +161,7 @@ void B_input(packet)
     printf("impossible");
  }
  
- tolayer3(1, pack);
+ tolayer3(1, packet);
 
 }
 
