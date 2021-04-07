@@ -64,8 +64,8 @@ void A_output(message)
  packet.checksum = calc_checksum(&packet);
  timeout_pkt = packet;
  wait_5 = 0;
- starttimer(0, sender_inc);
  tolayer3(0, packet);
+ starttimer(0, sender_inc);
 
 }
 
@@ -74,13 +74,14 @@ void A_input(packet)
   struct pkt packet;
 {
  //first check for checksum, state, and ack #
- if (packet.checksum != calc_checksum(&packet)){
-     printf("A_Input: checksum error");
-     return;
- }
+ 
  if (wait_5 != 0){
     printf("A_Input: not waiting for ACK");
     return;
+ }
+ if (packet.checksum != calc_checksum(&packet)){
+     printf("A_Input: checksum error");
+     return;
  }
  if (packet.acknum != sender_seq){
     printf("A_Input: acknum not equal to sender_seq");
@@ -117,6 +118,7 @@ void A_timerinterrupt()
      printf("A Timer interrupt, not waiting for ack, ignore");
     return;
  }
+ //timeout_pkt.acknum = 1 - timeout_pkt.acknum
  printf("A Timer interrupt, resending timeout_packet: %s", timeout_pkt.payload);
  tolayer3(0, timeout_pkt);
  starttimer(0, sender_inc);
@@ -152,16 +154,17 @@ void B_input(packet)
  if (packet.seqnum != rec_seq) {
      printf("B_input: seqnum not rec_seq");
      pack.acknum = 1 -rec_seq;
-     pack.checksum = calc_checksum(&packet);
      memcpy(pack.payload, packet.payload, 20);
+     pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;
  }
  //send to 5 
  printf("B_input: sending ack and to layer 5: %s", packet.payload);
- pack.acknum = 1 - rec_seq;
+ pack.acknum = rec_seq;
  memcpy(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
+ tolayer3(1, pack);
  tolayer5(1, packet.payload);
  printf("rec: %s", packet.payload);
  if (rec_seq == 0){
@@ -172,7 +175,6 @@ void B_input(packet)
     printf("impossible");
  }
  //could be packet
- tolayer3(1, pack);
 
 }
 
