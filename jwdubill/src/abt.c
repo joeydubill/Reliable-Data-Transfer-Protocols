@@ -15,10 +15,29 @@
 
 /********* STUDENTS WRITE THE NEXT SIX ROUTINES *********/
 
+struct Sender {
+   int seq;
+   bool wait5;
+   bool wait ack;
+ 
+};
+
+int calc_checksum(struct pkt *packet){
+  int sum = 0;
+  sum += packet->seqnum;
+  sum += packet->acknum;
+  for (int i =0; i < 20; i++){
+      sum += packet->payload[i];
+  }
+  return sum;
+}
+
 /* called from layer 5, passed the data to be sent to other side */
 void A_output(message)
   struct msg message;
 {
+ if (
+ 
 
 }
 
