@@ -117,7 +117,7 @@ void A_input(packet)
 void A_timerinterrupt()
 {
  if (wait_5 != 0){
-     printf("A Timer interrupt, not waiting for ack, ignore");
+    printf("A Timer interrupt, not waiting for ack, ignore");
     return;
  }
  starttimer(0, sender_inc);
@@ -134,7 +134,7 @@ void A_init()
  wait_5 = 1;
  sender_seq = 0;
  //change??
- sender_inc = 10.0f;
+ sender_inc = 20.0f;
  bufferwriteindex = 0;
  bufferreadindex = 0;
 }
@@ -173,6 +173,7 @@ void B_input(packet)
  memcpy(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
  tolayer3(1, pack);
+ packet.payload
  tolayer5(1, packet.payload);
  if (rec_seq == 0){
     rec_seq = 1;
