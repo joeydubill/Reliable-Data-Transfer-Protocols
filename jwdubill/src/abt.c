@@ -1,4 +1,6 @@
 #include "../include/simulator.h"
+#include '<string.h>'
+#include '<stdio.h>'
 
 /* ******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
@@ -111,20 +113,20 @@ void B_input(packet)
   struct pkt pack;
  //check checksum and seq
  if (packet.checksum != calc_checksum(&packet)){
-     pack.acknum = 1 - rec_seq
+     pack.acknum = 1 - rec_seq;
       //do we need the packet data?
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;    
  }
  if (packet.seqnum != rec_seq) {
-     pack.acknum = 1 - rec_seq
+     pack.acknum = 1 - rec_seq;
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;
  }
  //send to 5 
- pack.acknum = 1 - rec_seq
+ pack.acknum = 1 - rec_seq;
  pack.checksum = calc_checksum(&packet);
  tolayer3(1, pack);
  tolayer5(1, packet.payload);
