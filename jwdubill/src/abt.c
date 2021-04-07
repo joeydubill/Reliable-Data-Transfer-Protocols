@@ -30,6 +30,10 @@ int rec_seq;
 
 // packet for timeouts
 struct pkt timeout_pkt;
+struct msg buffer[1000];
+int bufferwriteindex = 0;
+int bufferreadindex = 0;
+
 
 int calc_checksum(struct pkt *packet){
   int sum = 0;
@@ -46,6 +50,10 @@ void A_output(message)
   struct msg message;
 {
  if (wait_5 != 1){
+     struct msg buff;
+     memcpy(buff.data, message.data, 20);
+     buffer[bufferindex] = buff;
+     bufferwriteindex++;
      return;
  }
  struct pkt packet;
@@ -84,6 +92,13 @@ void A_input(packet)
     printf("impossible");
  }
  wait_5 = 1;
+ if (buffer[bufferreadindex] != 0){
+    struct msg call = buffer[bufferreadindex];
+    A_output(call);
+    if (bufferreadindex < bufferwriteindex){
+      bufferreadindex++;
+    }
+ }
 
 }
 
