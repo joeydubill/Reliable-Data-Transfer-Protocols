@@ -101,7 +101,7 @@ void A_init()
  wait_5 = 1;
  sender_seq = 0;
  //change??
- sender_inc = 10;
+ sender_inc = 15;
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
@@ -114,20 +114,19 @@ void B_input(packet)
  //check checksum and seq
  if (packet.checksum != calc_checksum(&packet)){
      pack.acknum = 1 - rec_seq;
-      //do we need the packet data?
-     pack.checksum = calc_checksum(&packet);
+     pack.checksum = calc_checksum(&pack);
      tolayer3(1, pack);
      return;    
  }
  if (packet.seqnum != rec_seq) {
      pack.acknum = 1 - rec_seq;
-     pack.checksum = calc_checksum(&packet);
+     pack.checksum = calc_checksum(&pack);
      tolayer3(1, pack);
      return;
  }
  //send to 5 
- pack.acknum = 1 - rec_seq;
- pack.checksum = calc_checksum(&packet);
+ pack.acknum = rec_seq;
+ pack.checksum = calc_checksum(&pack);
  tolayer3(1, pack);
  tolayer5(1, packet.payload);
  if (rec_seq == 0){
