@@ -92,13 +92,12 @@ void A_input(packet)
     printf("impossible");
  }
  wait_5 = 1;
- if (buffer[bufferreadindex] != NULL){
-    struct msg call = buffer[bufferreadindex];
-    A_output(call);
-    if (bufferreadindex < bufferwriteindex){
-      bufferreadindex++;
-    }
+ if (bufferreadindex < bufferwriteindex){
+   struct msg call = buffer[bufferreadindex];
+   A_output(call);
+   bufferreadindex++;
  }
+ 
 
 }
 
