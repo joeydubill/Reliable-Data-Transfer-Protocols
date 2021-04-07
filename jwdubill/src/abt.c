@@ -31,6 +31,7 @@ int rec_seq;
 // packet for timeouts
 struct pkt timeout_pkt;
 struct msg buffered_message;
+bool call_buffered_packet;
 
 int calc_checksum(struct pkt *packet){
   int sum = 0;
