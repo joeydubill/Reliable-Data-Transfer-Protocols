@@ -49,7 +49,7 @@ void A_output(message)
 {
  if (wait_5 != 1){
      buffered_message = message;
-     call_buffered_packet = true;
+     call_buffered_packet = 1;
      return;
  }
  struct pkt packet;
@@ -114,7 +114,7 @@ void A_init()
  sender_seq = 0;
  //change??
  sender_inc = 20.0f;
- call_buffered_packet = false;
+ call_buffered_packet = 0;
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
