@@ -51,6 +51,7 @@ void A_output(message)
  struct pkt packet;
  memcpy(packet.payload, message.data, 20);
  packet.checksum = calc_checksum(&packet);
+ packet.seqnum = sender_seq;
  timeout_pkt = packet;
  wait_5 = 0;
  tolayer3(0, packet);
@@ -113,21 +114,20 @@ void B_input(packet)
   struct pkt pack;
  //check checksum and seq
  if (packet.checksum != calc_checksum(&packet)){
-     pack.acknum = 2;
+     pack.acknum = 1 - rec_seq;
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;    
  }
  if (packet.seqnum != rec_seq) {
-     pack.acknum = 2;
+     pack.acknum = 1 - rec_seq;
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
      return;
  }
  //send to 5 
- pack.acknum = 2;
+ pack.acknum = rec_seq;
  pack.checksum = calc_checksum(&packet);
- tolayer3(1, pack);
  tolayer5(1, packet.payload);
  if (rec_seq == 0){
     rec_seq = 1;
@@ -136,6 +136,7 @@ void B_input(packet)
  }else{
     printf("impossible");
  }
+ tolayer3(1, pack);
 
 }
 
