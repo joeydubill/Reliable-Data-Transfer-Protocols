@@ -121,7 +121,7 @@ void A_timerinterrupt()
     return;
  }
  starttimer(0, sender_inc);
- timeout_pkt.acknum = 1 - timeout_pkt.acknum;
+ //timeout_pkt.acknum = 1 - timeout_pkt.acknum;
  printf("A Timer interrupt, resending timeout_packet: %s", timeout_pkt.payload);
  tolayer3(0, timeout_pkt);
 
