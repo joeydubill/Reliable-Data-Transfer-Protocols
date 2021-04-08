@@ -134,7 +134,7 @@ void A_init()
  wait_5 = 1;
  sender_seq = 0;
  //change??
- sender_inc = 15.0f;
+ sender_inc = 10.0f;
  bufferwriteindex = 0;
  bufferreadindex = 0;
 }
