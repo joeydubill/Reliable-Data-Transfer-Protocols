@@ -172,8 +172,8 @@ void B_input(packet)
  pack.acknum = rec_seq;
  memcpy(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
- tolayer3(1, pack);
  tolayer5(1, packet.payload);
+ tolayer3(1, pack);
  if (rec_seq == 0){
     rec_seq = 1;
  }else if (rec_seq == 1){
