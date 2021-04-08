@@ -103,6 +103,7 @@ void A_input(packet)
  if (bufferreadindex < bufferwriteindex){
    printf("A_Input: sending buffered message: %s", buffer[bufferreadindex]);
    struct msg call = buffer[bufferreadindex];
+   sender_seq = 1 - sender_seq;
    A_output(call);
    bufferreadindex++;
  }else if (bufferreadindex == bufferwriteindex){
@@ -134,7 +135,7 @@ void A_init()
  wait_5 = 1;
  sender_seq = 0;
  //change??
- sender_inc = 30.0f;
+ sender_inc = 20.0f;
  bufferwriteindex = 0;
  bufferreadindex = 0;
 }
