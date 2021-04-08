@@ -103,7 +103,6 @@ void A_input(packet)
  if (bufferreadindex < bufferwriteindex){
    printf("A_Input: sending buffered message: %s", buffer[bufferreadindex]);
    struct msg call = buffer[bufferreadindex];
-   sender_seq = 1 - sender_seq;
    A_output(call);
    bufferreadindex++;
  }else if (bufferreadindex == bufferwriteindex){
