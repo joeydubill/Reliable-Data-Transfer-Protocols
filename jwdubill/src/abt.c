@@ -30,7 +30,7 @@ int rec_seq;
 
 // packet for timeouts
 struct pkt timeout_pkt;
-struct msg buffer[1000];
+struct msg buffer[100];
 int bufferwriteindex;
 int bufferreadindex;
 
@@ -68,7 +68,7 @@ void A_output(message)
  starttimer(0, sender_inc);
 
 }
-
+                                                     
 /* called from layer 3, when a packet arrives for layer 4 */
 void A_input(packet)
   struct pkt packet;
