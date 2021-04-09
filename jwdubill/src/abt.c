@@ -117,7 +117,7 @@ void A_input(packet)
 void A_timerinterrupt()
 {
  if (wait_5 != 0){
-  //  printf("A Timer interrupt, not waiting for ack, ignore");
+    printf("A Timer interrupt, not waiting for ack, ignore");
     return;
  }
  starttimer(0, sender_inc);
