@@ -169,7 +169,7 @@ void B_input(packet)
  }
  //send to 5 
 // printf("B_input: sending ack and to layer 5: %s", packet.payload);
- pack.acknum = rec_seq;
+ pack.acknum = 1 - rec_seq;
  memcpy(pack.payload, packet.payload, 20);
  pack.checksum = calc_checksum(&packet);
  tolayer5(1, packet.payload);
