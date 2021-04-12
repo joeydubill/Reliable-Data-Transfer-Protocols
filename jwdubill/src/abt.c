@@ -30,7 +30,7 @@ int rec_seq;
 
 // packet for timeouts
 struct pkt timeout_pkt;
-struct msg buffer[100];
+struct msg buffer[1000];
 int bufferwriteindex;
 int bufferreadindex;
 
