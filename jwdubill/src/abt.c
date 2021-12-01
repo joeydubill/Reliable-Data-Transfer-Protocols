@@ -4,7 +4,6 @@
 
 /* ******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
-
    This code should be used for PA2, unidirectional data transfer 
    protocols (from A to B). Network properties:
    - one way network delay averages five time units (longer if there
@@ -97,7 +96,7 @@ void A_input(packet)
  }else if (sender_seq == 1){
     sender_seq = 0;
  }else{
-    //printf("impossible");
+    printf("impossible");
  }
  wait_5 = 1;
  if (bufferreadindex < bufferwriteindex){
@@ -117,7 +116,7 @@ void A_input(packet)
 void A_timerinterrupt()
 {
  if (wait_5 != 0){
-    //printf("A Timer interrupt, not waiting for ack, ignore");
+    printf("A Timer interrupt, not waiting for ack, ignore");
     return;
  }
  starttimer(0, sender_inc);
@@ -148,23 +147,23 @@ void B_input(packet)
   struct pkt pack;
  //check checksum and seq
  if (packet.checksum != calc_checksum(&packet)){
-     //printf("B_input: checksum error");
-     
+     printf("B_input: checksum error");
+     /*
      pack.acknum = 1 - rec_seq;
      memmove(pack.payload, packet.payload, 20);
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
-     
+     */
      return;    
  }
  if (packet.seqnum != rec_seq) {
-     //printf("B_input: seqnum not rec_seq");
-      
+     printf("B_input: seqnum not rec_seq");
+      /*
      pack.acknum = 1 -rec_seq;
      memmove(pack.payload, packet.payload, 20);
      pack.checksum = calc_checksum(&packet);
      tolayer3(1, pack);
-     
+     */
      return;
  }
  //send to 5 
@@ -179,7 +178,7 @@ void B_input(packet)
  }else if (rec_seq == 1){
     rec_seq = 0;
  }else{
-    //printf("impossible");
+    printf("impossible");
  }
  //could be packet
 
