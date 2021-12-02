@@ -1,4 +1,6 @@
 #include "../include/simulator.h"
+#include <string.h>
+#include <stdio.h>
 
 /* ******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
@@ -15,10 +17,60 @@
 
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
+int ackflag;
+int a_seq;
+int b_seq;
+int check = 0;
+int seq = 0;
+int last_suc = 0;
+int numr = 0;
+int last_seq = 0;
+
+struct msg buffer[1000];
+int bufferwriteindex = 0;
+
+struct float times[1000];
+int timeswriteindex = 0;
+
+float timeout = 0.0;
+float RTT = 25.0;
+
+struct pkt last;
+
+int calc_checksum(struct pkt *packet){
+  int sum = 0;
+  sum += packet->seqnum;
+  sum += packet->acknum;
+  for (int i =0; i < 20; i++){
+      sum += packet->payload[i];
+  }
+  return sum;
+}
+
+
+
 /* called from layer 5, passed the data to be sent to other side */
 void A_output(message)
   struct msg message;
 {
+    struct msg buff;
+    memcpy(buff.data, message.data, 20);
+    buffer[bufferwriteindex] = buff;
+    bufferwriteindex++;
+     
+    if (numr == 0){
+      last = buffer[seq];
+      tolayer3(0, last);
+      times[timeswriteindex] = get_sim_time();
+      seq++;
+      starttimer(0, RTT);
+      numr++;
+    }else if(numr < getwinsize()){
+      last = buffer[seq];
+      tolayer3(0, last);
+      seq++;
+      numr++
+    }
 
 }
 
@@ -26,12 +78,30 @@ void A_output(message)
 void A_input(packet)
   struct pkt packet;
 {
-
+   ackflag = 1;
+   if (packet.acknum == (last_seq + 1)){
+      last_seq++;
+   }else if(packet.acknum == (last_suc + getwinsize())){
+      lastsucess += getwinsize();
+      stoptimer(0);
+   }
 }
 
 /* called when A's timer goes off */
 void A_timerinterrupt()
 {
+ 
+  //implemnted storing each sim time for each packet, to compare to our rtt to resend packets
+   for (int i = 0; i <times.size(); i++){
+     timeout = get_sim_time() - times[i];
+     if (timeout >= RTT){
+        tolayer3(0, last);
+        starttimer(0, RTT);
+     }
+     tolayer3(0, last);
+     starttimer(0, RTT);
+   }
+ 
 
 }  
 
@@ -39,6 +109,8 @@ void A_timerinterrupt()
 /* entity A routines are called. You can use it to do any initialization */
 void A_init()
 {
+ ackflag = 1;
+ a_seq = 0;
   
 }
 
@@ -48,12 +120,24 @@ void A_init()
 void B_input(packet)
   struct pkt packet;
 {
-
+   if ((b_seq == packet.seqnum) && (calc_checksum(&packet) == packet.checksum)){
+      tolayer5(1, packet.payload);
+      struct pkt ack;
+      ack.acknum = b_seq;
+      ack.checksum = packet.seqnum;
+      tolayer3(1, ack);
+      b_seq++;
+   }else if ((b_seq != packet.seqnum) && (calc_checksum(&packet) == packet.checksum)){
+      struct pkt ack2;
+      ack2.acknum = b_seq - 1;
+      ack2.checksum = packet.seqnum;
+      tolayer3(1, ack2);
+   }
 }
 
 /* the following rouytine will be called once (only) before any other */
 /* entity B routines are called. You can use it to do any initialization */
 void B_init()
 {
-
+  b_seq = 0;
 }
