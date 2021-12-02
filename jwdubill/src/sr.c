@@ -66,6 +66,7 @@ void A_output(message)
       last = buffer[seq];
       tolayer3(0, last);
       times[timeswriteindex] = get_sim_time();
+      timeswriteindex++;
       seq++;
       starttimer(0, RTT);
       numr++;
