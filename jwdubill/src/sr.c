@@ -26,10 +26,10 @@ int last_suc = 0;
 int numr = 0;
 int last_seq = 0;
 
-struct msg buffer[1000];
+struct pkt buffer[1000];
 int bufferwriteindex = 0;
 
-struct float times[1000];
+float times[1000];
 int timeswriteindex = 0;
 
 float timeout = 0.0;
@@ -53,9 +53,13 @@ int calc_checksum(struct pkt *packet){
 void A_output(message)
   struct msg message;
 {
-    struct msg buff;
-    memcpy(buff.data, message.data, 20);
-    buffer[bufferwriteindex] = buff;
+    struct pkt npacket;
+    packet.seqnum = seq;
+    packet.acknum = seq;
+    memcpy(packet.payload, message.data);
+    packet.checksum =  calc_checksum(&packet);
+  
+    buffer[bufferwriteindex] = npacket;
     bufferwriteindex++;
      
     if (numr == 0){
@@ -69,7 +73,7 @@ void A_output(message)
       last = buffer[seq];
       tolayer3(0, last);
       seq++;
-      numr++
+      numr++;
     }
 
 }
@@ -82,7 +86,7 @@ void A_input(packet)
    if (packet.acknum == (last_seq + 1)){
       last_seq++;
    }else if(packet.acknum == (last_suc + getwinsize())){
-      lastsucess += getwinsize();
+      last_suc += getwinsize();
       stoptimer(0);
    }
 }
@@ -109,8 +113,8 @@ void A_timerinterrupt()
 /* entity A routines are called. You can use it to do any initialization */
 void A_init()
 {
- ackflag = 1;
- a_seq = 0;
+  ackflag = 1;
+  a_seq = 0;
   
 }
 
