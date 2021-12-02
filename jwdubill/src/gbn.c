@@ -109,7 +109,7 @@ void A_timerinterrupt()
 void A_init()
 {
  sender_seq = 0;
- sender_ack = 0
+ sender_ack = 0;
  window_size = getwinsize(); //software interface
  next_seq = 0;
  base = 0;
