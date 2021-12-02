@@ -25,7 +25,6 @@ int base;
 
 struct msg buffer[1000];
 int bufferwriteindex;
-int bufferreadindex;
 
 int calc_checksum(struct pkt *packet){
   int sum = 0;
@@ -41,7 +40,7 @@ void send(){
  //send in a loop 
  while((next_seq < (base + window_size)) && (next_seq < bufferwriteindex)){
   
-    struct msg message = buffer[bufferreadindex];
+    struct msg message = buffer[next_seq];
     struct pkt packet;
     memcpy(packet.payload, message.data, 20);
     packet.seqnum = next_seq;
@@ -49,7 +48,7 @@ void send(){
     packet.checksum = calc_checksum(&packet);
   
     tolayer3(0, packet);
-    if (base = next_seq){
+    if (base == next_seq){
        starttimer(0, RTT);
     }
     next_seq++;
@@ -79,7 +78,7 @@ void A_input(packet)
    //check if corrupt
    bool corrupt = false;
    if(packet.checksum == calc_checksum(&packet)){
-	  	  corrupt = false;
+      corrupt = false;
    }else{
       corrupt = true;
    }
@@ -112,7 +111,7 @@ void A_init()
  next_seq = 0;
  base = 0;
  bufferwriteindex = 0;
- bufferreadindex = 0;
+
 
 }
 
@@ -125,7 +124,7 @@ void B_input(packet)
    //check if corrupt
    bool corrupt = false;
    if(packet.checksum == calc_checksum(&packet)){
-	  	  corrupt = false;
+      corrupt = false;
    }else{
       corrupt = true;
    }
