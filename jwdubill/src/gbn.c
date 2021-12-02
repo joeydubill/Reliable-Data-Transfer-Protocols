@@ -1,6 +1,7 @@
 #include "../include/simulator.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 /* ******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
@@ -21,7 +22,7 @@ float RTT = 25.0;
 int sender_seq; //A seq
 int sender_ack; //A ack
 int next_seq
-int b_seq: // what b expects
+int b_seq; // what b expects
 int window_size;
 int base; 
 
@@ -78,11 +79,11 @@ void A_input(packet)
 {
  
    //check if corrupt
-   bool corrupt = false;
+   bool corrupt = 0;
    if(packet.checksum == calc_checksum(&packet)){
-      corrupt = false;
+      corrupt = 0;
    }else{
-      corrupt = true;
+      corrupt = 1;
    }
  
    if(!corrupt){
@@ -124,11 +125,11 @@ void B_input(packet)
   struct pkt packet;
 {
    //check if corrupt
-   bool corrupt = false;
+   bool corrupt = 0;
    if(packet.checksum == calc_checksum(&packet)){
-      corrupt = false;
+      corrupt = 0;
    }else{
-      corrupt = true;
+      corrupt = 1;
    }
  
    if(!corrupt && (b_seq == packet.seqnum)){
