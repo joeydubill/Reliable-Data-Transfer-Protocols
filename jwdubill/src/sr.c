@@ -54,10 +54,10 @@ void A_output(message)
   struct msg message;
 {
     struct pkt npacket;
-    packet.seqnum = seq;
-    packet.acknum = seq;
-    memcpy(packet.payload, message.data);
-    packet.checksum =  calc_checksum(&packet);
+    npacket.seqnum = seq;
+    npacket.acknum = seq;
+    memcpy(npacket.payload, message.data, 20);
+    npacket.checksum =  calc_checksum(&npacket);
   
     buffer[bufferwriteindex] = npacket;
     bufferwriteindex++;
@@ -96,7 +96,7 @@ void A_timerinterrupt()
 {
  
   //implemnted storing each sim time for each packet, to compare to our rtt to resend packets
-   for (int i = 0; i <times.size(); i++){
+   for (int i = 0; i <timeswriteindex; i++){
      timeout = get_sim_time() - times[i];
      if (timeout >= RTT){
         tolayer3(0, last);
