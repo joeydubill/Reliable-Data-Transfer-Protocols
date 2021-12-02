@@ -21,7 +21,7 @@
 float RTT = 25.0;
 int sender_seq; //A seq
 int sender_ack; //A ack
-int next_seq
+int next_seq;
 int b_seq; // what b expects
 int window_size;
 int base; 
